@@ -20,3 +20,23 @@ Route::get('/', function () {
 Route::middleware(['auth'])->group(function(){
     Route::view('/admin','admin')->name('admin');
 });
+
+//Route::get('/doors', function(){
+//    return route('index', \App\Http\Controllers\DoorController::class);
+//});
+
+Route::get('/doors', [\App\Http\Controllers\DoorController::class,'index'])
+    ->name('doors.index');
+//index    ->middleware('auth');
+
+Route::get('/doors/{door}',[\App\Http\Controllers\DoorController::class,'show'])
+    ->name('doors.show');
+//    ->middleware('auth');
+
+Route::get('/zones', [\App\Http\Controllers\ZoneController::class,'index'])
+    ->name('zones.index');
+//index    ->middleware('auth');
+
+Route::get('/zones/{zone}',[\App\Http\Controllers\ZoneController::class,'show'])
+    ->name('zones.show');
+//    ->middleware('auth');

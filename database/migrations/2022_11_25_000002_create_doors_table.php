@@ -18,8 +18,8 @@ return new class extends Migration
 //            $table->timestamps();
             $table->increments('id');
             $table->string('name')->unique(); // Note we want to force unique names.
-            // a door can only belong to at most one zone
-            // So create zones first and then add door to zone
+            // a doors can only belong to at most one zone
+            // So create zones first and then add doors to zone
             $table->unsignedInteger('zone_id')->nullable();
             $table->timestamps();
             // and then add the fact that zone_id is linked to zones table via the zones id

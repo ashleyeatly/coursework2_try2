@@ -15,7 +15,7 @@ return new class extends Migration {
 
 // the links between user and zone
 // delete a user and the links between user and zones is removed from pivot table
-// delete a zone and any user linked to that door in pivot table is removed too
+// delete a zone and any user linked to that doors in pivot table is removed too
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('zone_id')->references('id')->on('zones')->onDelete('cascade')->onUpdate('cascade');

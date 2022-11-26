@@ -41,11 +41,11 @@ class DoorsTableSeeder extends Seeder
 
         // Get all the zones.
         $allZones = Zone::all();
-        // Randomly associate zero or one random zone to each door we created.
+        // Randomly associate zero or one random zone to each doors we created.
         $createdDoors->each(function ($d) use ($allZones) {
             // 50% chance of executing the body of the if.
             if (rand(0, 1) == 0) {
-                // Get a random zone and place the door in the zone.
+                // Get a random zone and place the doors in the zone.
                 $randomZone = $allZones->random();
                 $d->zone()->associate($randomZone);
                 $d->save();

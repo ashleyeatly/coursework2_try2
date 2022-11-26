@@ -20,10 +20,10 @@ return new class extends Migration
             $table->unsignedInteger('door_id');
             $table->unsignedInteger('user_id');
 
-// the links between a user and door
-// delete a door and any that door is removed from the door_user pivot table
+// the links between a user and doors
+// delete a doors and any that doors is removed from the door_user pivot table
             $table->foreign('door_id')->references('id')->on('doors')->onDelete('cascade')->onUpdate('cascade');
-// delete a user and any door linked to that user is removed from the pivot table
+// delete a user and any doors linked to that user is removed from the pivot table
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
     }

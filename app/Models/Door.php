@@ -10,7 +10,7 @@ class Door extends Model
     use HasFactory;
 
     /**
-     * Get the zone that this door belongs to.
+     * Get the zone that this doors belongs to.
      */
     public function zone()
     {

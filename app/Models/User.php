@@ -75,10 +75,10 @@ class User extends Authenticatable
     }
 
     /**
-     * Does a user have access to a door?
+     * Does a user have access to a doors?
      *
-     * @param Door $door The door to check access for.
-     * @return boolean True if the user has access to the specified door.
+     * @param Door $door The doors to check access for.
+     * @return boolean True if the user has access to the specified doors.
      */
     public function hasAccessToDoor(Door $door)
     {
@@ -94,15 +94,15 @@ class User extends Authenticatable
             return true;
         }
 
-        // Check if the user has direct access to the door.
+        // Check if the user has direct access to the doors.
         if($this->doors->contains($door))
         {
             return true;
         }
 
-        // Check if any zone the user has access to contains the door.
+        // Check if any zone the user has access to contains the doors.
         foreach($this->zones as $zone) {
-            // Check if door is in the zone
+            // Check if doors is in the zone
             if ($zone->doors->contains($door)) {
                 return true;
             }
