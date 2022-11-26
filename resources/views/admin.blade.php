@@ -6,6 +6,10 @@
         <thead>
         <tr>
             <th>Name</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Adminstrator</th>
+            <th>Expires</th>
             <th>Email</th>
         </tr>
         </thead>
@@ -13,6 +17,10 @@
         @foreach(App\Models\User::all() as $user)
             <tr>
                 <td>{{ $user->name }}</td>
+                <td>{{ $user->first_name }}</td>
+                <td>{{ $user->last_name }}</td>
+                <td>{{ $user->administrator }}</td>
+                <td>{{ $user->expires }}</td>
                 <td>{{ $user->email }}</td>
             </tr>
         @endforeach
