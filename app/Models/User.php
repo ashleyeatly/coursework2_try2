@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -56,4 +57,58 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get the direct doors a user has access to.
+     */
+    public function doors()
+    {
+        return $this->belongsToMany('App\Models\Door')->withTimestamps();
+    }
+
+    /**
+     * Get the zones a user has access to.
+     */
+    public function zones()
+    {
+        return $this->belongsToMany('App\Models\Zone')->withTimestamps();
+    }
+
+    /**
+     * Does a user have access to a door?
+     *
+     * @param Door $door The door to check access for.
+     * @return boolean True if the user has access to the specified door.
+     */
+    public function hasAccessToDoor(Door $door)
+    {
+        // Check if the user has expired.
+        if ($this->expires < Carbon::now()) // https://carbon.nesbot.com/docs/
+        {
+            return false;
+        }
+
+        // Check if the user is admin. If so thrre is no need to check further.
+        if($this->administrator)
+        {
+            return true;
+        }
+
+        // Check if the user has direct access to the door.
+        if($this->doors->contains($door))
+        {
+            return true;
+        }
+
+        // Check if any zone the user has access to contains the door.
+        foreach($this->zones as $zone) {
+            // Check if door is in the zone
+            if ($zone->doors->contains($door)) {
+                return true;
+            }
+        }
+
+        // We didn't find any access.
+        return false;
+    }
 }
