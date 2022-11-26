@@ -1,0 +1,137 @@
+# coursework2 bare laravel using sail/docker
+
+curl -s "https://laravel.build/coursework2" | bash
+
+
+sail composer require laravel/fortify
+
+sail artisan vendor:publish --provider="Laravel\Fortify\FortifyServiceProvider"
+
+sail artisan migrate:fresh --seed
+
+sail artisan route:list
+29 routes
+
+npm run dev
+
+fortify.php
+
+'features' => [
+Features::registration(),
+Features::resetPasswords(),
+Features::emailVerification(),
+//        Features::updateProfileInformation(),
+//        Features::updatePasswords(),
+//        Features::twoFactorAuthentication([
+//            'confirm' => true,
+//            'confirmPassword' => true,
+//            // 'window' => 0,
+//        ]),
+],
+
+config/app/php
+
+providers
+        App\Providers\FortifyServiceProvider::class,
+
+
+
+sail artisan route:list
+sail artisan route:list -c
+
+here does need to be models
+Door (Database table doors)
+User (Database Table users) - but this hijacks users as is)
+Zone (Database tables zones)
+
+Using MySQL
+and Docker
+
+We have to add fields to users
+
+sail artisan make:model Zone -m
+
+we create the door after the zone because a door can only fit into one
+zone
+so zone has to be a foreign key in door
+
+sail artisan make:model Door -m
+
+Add to users
+$table->increments('id');
+// these replace name
+$table->string('first_name');
+$table->string('last_name');
+$table->boolean('administrator');
+$table->date('expires');
+
+// slightly concerned about the password resets table that has name
+
+// we know that a user can be given access to many doors so we need a door_user pivot
+// a door can have many users
+// and a user can have many doors
+// but the combination of door vs user must be unique
+
+$table->primary(['door_id', 'user_id']);
+$table->unsignedInteger('door_id');
+$table->unsignedInteger('user_id');
+
+// the links between a user and door
+// delete a door and any that door is removed from the door_user pivot table
+$table->foreign('door_id')->references('id')->on('doors')->onDelete('cascade')->onUpdate('cascade');
+// delete a user and any door linked to that user is removed from the pivot table
+$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+
+$table->primary(['user_id', 'zone_id']);
+$table->unsignedInteger('user_id');
+$table->unsignedInteger('zone_id');
+
+// the links between user and zone
+// delete a user and the links between user and zones is removed from pivot table
+// delete a zone and any user linked to that door in pivot table is removed too
+
+$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+$table->foreign('zone_id')->references('id')->on('zones')->onDelete('cascade')->onUpdate('cascade');
+
+sail artisan make:migration create_door_user_table
+
+sail artisan make:migration create_user_zone_table
+
+so we created those - I supect that the migration is needed at this stage no seeders yet.
+
+Dont forget to add methods to the Models
+
+
+and factories..
+
+Now also we need to seed zones first as that doesn't have any door or user
+stuff in the zone table.
+
+Then  seed doors because doors have zones inside the table
+
+and then users because they have links to zones and door etc.
+
+sail artisan make:seeder DoorsTableSeeder
+sail artisan make:seeder ZonesTableSeeder
+sail artisan make:seeder UsersTableSeeder
+
+sail artisan migrate:fresh --seed
+
+
+npm install -D tailwindcss
+
+npx tailwindcss init
+
+deleted
+Created Tailwind CSS config file: tailwind.config.js
+
+deleted
+add src/index.html
+deleted
+add src/input.css
+
+in input.css
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
