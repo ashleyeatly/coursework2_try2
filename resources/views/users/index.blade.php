@@ -1,14 +1,14 @@
-<x-layout title="zones">
-     <table id="zone-table" class="table table-striped" style="width:100%">
+<x-layout title="users">
+     <table id="user-table" class="table table-striped" style="width:100%">
         <thead>
         <tr>
             <th>Name</th>
         </tr>
         </thead>
         <tbody>
-        @foreach($zones as $zone)
+        @foreach(App\Models\User::all() as $user)
             <tr>
-                <td><a href="{{route('zones.show',['zone'=>$zone])}}">{{$zone->name}}</td>
+                <td><a href="{{route('users.show',['user'=>$user])}}">{{$user->name}}</td>
             </tr>
         @endforeach
         </tbody>
@@ -16,7 +16,7 @@
     @push('scripts')
         <script>
             $(document).ready( function () {
-                $('#zone-table').DataTable();
+                $('#user-table').DataTable();
             } );
         </script>
     @endpush

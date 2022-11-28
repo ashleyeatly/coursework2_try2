@@ -1,6 +1,10 @@
 <x-layout title="Admin Area">
     <h1>Admin Area</h1>
     <p>You must be logged in to see this!</p>
+    <p>You are {{Auth::user()->name}}</p>
+    <p>Please <a href="{{ route('login') }}">login</a>
+        or <a href="{{ route('register') }}">register</a></p>
+
 
     <table id="user-table" class="table table-striped" style="width:100%">
         <thead>

@@ -18,7 +18,7 @@ class UsersTableSeeder extends Seeder
         $u->last_name = "O'Reilly";
         $u->administrator=true;
         $u->expires=Carbon::now()->addYear();
-        $u->email="liamoreilly@exmaple.com";
+        $u->email="liamoreilly@example.com";
         $u->password=bcrypt('secret');
         $u->save();
         $u->doors()->attach(3); // Back Door
