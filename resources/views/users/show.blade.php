@@ -1,5 +1,5 @@
 @extends('layouts.master')
-
+{{--@extends('layouts.nav')--}}
 @section('title', 'User')
 
 @section('content')
@@ -50,60 +50,117 @@
         <button type="submit">Back</button>
     </form>
 
-    <table id="zone-table" class="table table-striped" style="width:100%">
-        <thead>
-        <tr>
-            <th>Zone Name</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach($user->zones as $zone)
-            <tr>
-                <td><a href="{{route('zones.show',['zone'=>$zone])}}">{{$zone->name}}</td>
+    @if ($user->zones())
+        <table id="zone-table" class="table table-striped" style="width:100%">
+            @foreach($user->zones as $zone)
                 <thead>
-                <tr>
-                    <th>Door Name</th>
-                </tr>
+                    <tr>
+                        <th>Zone</th>
+                        <th>Show</th>
+                        @if(Auth::user()->administrator)
+                            <th>Remove Access</th>
+                        @endif
+                    </tr>
                 </thead>
                 <tbody>
-                    @foreach($zone->doors as $door)
                     <tr>
-                        <td><a href="{{route('doors.show',['door'=>$door])}}">{{$zone->name}} -> {{$door->name}}</td>
+                        <td><a href="{{route('zones.show',['zone'=>$zone])}}">{{$zone->name}}</td>
+                        <td>
+                            <form action="{{ route('zones.show',['zone'=>$zone]) }}" method="GET">
+                                @csrf
+                                <button type="submit" class="btn btn-primary">Show</button>
+                            </form>
+                        </td>
+                        @if(Auth::user()->administrator)
+                            <td>
+                                <form action="{{ route('logout') }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn btn-primary">Remove</button>
+                                </form>
+                            </td>
+                        @endif
                     </tr>
-                    @endforeach
                 </tbody>
-            </tr>
-        @endforeach
-        </tbody>
-    </table>
-    @push('scripts')
-        <script>
-            $(document).ready( function () {
-                $('#zone-table').DataTable();
-            } );
-        </script>
-    @endpush
 
-    <table id="door-table" class="table table-striped" style="width:100%">
-        <thead>
-        <tr>
-            <th>Door Name</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach($user->doors as $door)
+                @if ($zone->doors())
+
+
+
+                        @foreach($zone->doors as $door)
+{{--                            <thead>--}}
+{{--                                <tr>--}}
+{{--                                    <th>Door Name</th>--}}
+{{--                                    <th>Show Door</th>--}}
+{{--                                </tr>--}}
+{{--                            </thead>--}}
+                            <tbody>
+                             <tr>
+                                <td>
+                                    <a href="{{route('doors.show',['door'=>$door])}}">{{$zone->name."->".$door->name}}
+                                </td>
+                                <td>
+                                    <form action="{{ route('doors.show',['door'=>$door]) }}" method="GET">
+                                        @csrf
+                                        <button type="submit" class="btn btn-primary">Show</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                @endif
+            @endforeach
+{{--        </tbody>--}}
+        </table>
+        @push('scripts')
+            <script>
+                $(document).ready( function () {
+                    $('#zone-table').DataTable();
+                } );
+            </script>
+        @endpush
+    @endif
+
+    @if ($user->doors()->count())
+        <table id="door-table" class="table table-striped" style="width:100%">
+            <thead>
             <tr>
-                <td><a href="{{route('doors.show',['door'=>$door])}}">{{$door->name}}</td>
+                <th>Door Name</th>
+                <th>Show Door</th>
+                @if(Auth::user()->administrator)
+                    <th>Remove Access</th>
+                @endif
             </tr>
-        @endforeach
-        </tbody>
-    </table>
-    @push('scripts')
-        <script>
-            $(document).ready( function () {
-                $('#door-table').DataTable();
-            } );
-        </script>
-    @endpush
-
+            </thead>
+            <tbody>
+            @foreach($user->doors as $door)
+                <tr>
+                    <td>
+                        <a href="{{route('doors.show',['door'=>$door])}}">{{$door->name}}</a>
+                    </td>
+                    <td>
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-primary">Show</button>
+                        </form>
+                    </td>
+                    @if(Auth::user()->administrator)
+                        <td>
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-primary">Remove</button>
+                            </form>
+                        </td>
+                    @endif
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+        @push('scripts')
+            <script>
+                $(document).ready( function () {
+                    $('#door-table').DataTable();
+                } );
+            </script>
+        @endpush
+    @endif
 @endsection

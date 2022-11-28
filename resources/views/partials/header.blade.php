@@ -1,5 +1,11 @@
 <header>
-{{--    <nav class="navbar navbar-expand-lg navbar-light bg-light">--}}
+    <div class="masthead bg-primary text-white text-center py-4">
+        <div class="container d-flex align-items-center flex-column">
+            <h2>@yield('subtitle', 'Poppero2')</h2>
+        </div>
+    </div>
+
+    {{--    <nav class="navbar navbar-expand-lg navbar-light bg-light">--}}
     <nav class="navbar navbar-expand-lg navbar-dark bg-secondary py-4">
 {{--        <div class="container-fluid">--}}
         <div class="container">

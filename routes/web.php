@@ -81,3 +81,4 @@ Route::get('users/list', [UserController::class, 'getUsers'])
 
 Route::delete('/users/{user}',[UserController::class,'destroy'])
     ->name('users.destroy')->middleware('auth');
+

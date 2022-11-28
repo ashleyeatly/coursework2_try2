@@ -1,15 +1,17 @@
-@extends('layouts.master')
-@section('title','Create Person')
+@extends('layouts.nav')
+@section('title','Create User')
 @section('content')
-    <form method="POST" action="{{route('people.store')}}">
+    <form method="POST" action="{{route('user.store')}}">
         @csrf
-        <p>Title: <input type="text" name="title" value="{{old('title')}}"></p>
+        <p>Name: <input type="text" name="title" value="{{old('title')}}"></p>
         <p>FirstName: <input type="text" name="first_name" value="{{old('first_name')}}"></p>
-        <p>Surname: <input type="text" name="surname" value="{{old('surname')}}"></p>
-        <p>Address: <input type="text" name="address" value="{{old('address')}}"></p>
+        <p>LastName: <input type="text" name="last_name" value="{{old('last_name')}}"></p>
+        <p>Administrator: <input type="boolean" name="administrator" value="{{old('administrator')}}"></p>
+        <p>Expires: <input type="date" name="expires" value="{{old('expires')}}</p>
+        <p>Email: <input type   ..
         <input type="submit" value="Submit">
     </form>
-    <form method="GET" action="{{route('people.index')}}">
+    <form method="GET" action="{{route('users.index')}}">
         @csrf
         <input type="submit" value="Cancel">
     </form>
