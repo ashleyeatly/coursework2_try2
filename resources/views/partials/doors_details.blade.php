@@ -1,5 +1,11 @@
 <h1>Doors</h1>
 @if(Auth::user()->administrator)
+     <select name="door" id="door" >
+         <option value="">PleaseSelect</option>
+        @foreach( $all_doors as $door)
+            <option value="{{$door->id}}">{{$door->name}}</option>
+        @endforeach
+    </select>
     <form action="#" method="GET">
         @csrf
         <button type="submit" class="btn btn-primary">Add Door</button>

@@ -1,6 +1,13 @@
 <h1>Zones</h1>
 @if(Auth::user()->administrator)
+
     <form action="#" method="GET">
+        <select name="zone" id="zone" >
+            <option value="">PleaseSelect</option>
+            @foreach( $all_zones as $zone)
+                <option value="{{$zone->id}}">{{$zone->name}}</option>
+            @endforeach
+        </select>
         @csrf
         <button type="submit" class="btn btn-primary">Add Zone</button>
     </form>

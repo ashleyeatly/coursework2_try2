@@ -51,10 +51,10 @@ Route::get('/home', [\App\Http\Controllers\PageController::class,'index'])
 /**
  * doors
  */
-Route::get('/doors/create', [DoorController::class, 'create'])
+Route::get('/doors/create', [\App\Http\Controllers\DoorController::class, 'create'])
     ->name('doors.create')->middleware('auth');
 
-Route::get('doors/list', [DoorController::class, 'getUsers'])
+Route::get('doors/list', [\App\Http\Controllers\DoorController::class, 'getUsers'])
     ->name('doors.list')->middleware('auth');
 
 Route::get('/doors', [\App\Http\Controllers\DoorController::class,'index'])
@@ -63,10 +63,10 @@ Route::get('/doors', [\App\Http\Controllers\DoorController::class,'index'])
 Route::get('/doors/{door}',[\App\Http\Controllers\DoorController::class,'show'])
     ->name('doors.show')->middleware('auth');
 
-Route::post('/doors', [DoorController::class, 'store'])
+Route::post('/doors', [\App\Http\Controllers\DoorController::class, 'store'])
     ->name('doors.store')->middleware('auth');
 
-Route::delete('/doors/{door}',[DoorController::class,'destroy'])
+Route::delete('/doors/{door}',[\App\Http\Controllers\DoorController::class,'destroy'])
     ->name('doors.destroy')->middleware('auth');
 
 /**

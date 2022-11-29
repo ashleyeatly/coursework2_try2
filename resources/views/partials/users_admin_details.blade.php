@@ -34,7 +34,7 @@
                       action="{{route('users.show',['user'=>$user])}}">
                     @csrf
                     @method('GET')
-                    <button type="submit">Edit</button>
+                    <button type="submit" class="btn-primary">Edit</button>
                 </form>
             </td>
             <td>{{ $user->name }}</td>

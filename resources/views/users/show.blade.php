@@ -3,7 +3,7 @@
 {{--@extends('layouts.nav')--}}
 {{--@section('title', 'User')--}}
 
-@section('content')
+{{--@section('content')--}}
 @include('partials.user_details')
 
 {{--    <form method="POST"--}}
@@ -29,5 +29,5 @@
         @endif
     @endauth
 
-@endsection
+{{--@endsection--}}
 {{--</x-layout>--}}

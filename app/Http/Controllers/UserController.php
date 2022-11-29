@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Actions\Fortify\PasswordValidationRules;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -66,7 +67,9 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return view('users.show',['user'=>$user]);
+        $all_zones = DB::table('zones')->select('id','name')->get();
+        $all_doors = DB::table('doors')->select('id','name')->get();
+        return view('users.show',['user'=>$user,'all_zones'=>$all_zones,'all_doors'=>$all_doors]);
     }
 
     public function edit(User $user)
