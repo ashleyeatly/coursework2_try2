@@ -1,4 +1,10 @@
+<x-layout title="users_admin_details">
 <h1>Admin View</h1>
+<form method="GET"
+      action="{{route('users.index')}}">
+    @csrf
+    <button type="submit" class="btn btn-primary">Back</button>
+</form>
 
 <table id="user-table" class="table table-striped" style="width:100%">
     <thead>
@@ -48,3 +54,4 @@
         } );
     </script>
 @endpush
+</x-layout>

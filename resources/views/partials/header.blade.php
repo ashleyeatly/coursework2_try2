@@ -26,9 +26,11 @@
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             @auth
                                 <li><a class="dropdown-item" href="{{ route('users.show',Auth::user()->id) }}">Personal Details</a></li>
-                                <li><a class="dropdown-item" href="{{ route('users.index')}}">User Admin</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="{{ route('users.create') }}">New User</a></li>
+                                @if (Auth::user()->administrator)
+                                    <li><a class="dropdown-item" href="{{ route('users.index')}}">User Admin</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="{{ route('users.create') }}">New User</a></li>
+                                @endif
                             @endauth
                             @guest
                                     <li><a class="dropdown-item" href="{{ route('users.index')}}">Login to access</a></li>
@@ -36,37 +38,46 @@
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Door Resource
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            @auth
-                                <li><a class="dropdown-item" href="{{ route('doors.show',Auth::user()->id) }}">Door Details</a></li>
-                                <li><a class="dropdown-item" href="{{ route('doors.index')}}">Door Admin</a></li>
-                                <li><a class="dropdown-item" href="{{ route('doors.create') }}">New Door</a></li>
-                            @endauth
-                            @guest
-                                <li><a class="dropdown-item" href="{{ route('doors.index')}}">Login to access</a></li>
-                            @endguest
-                        </ul>
+                        @auth
+                            @if(Auth::user()->administrator)
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Door Resource
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    @auth
+                                        <li><a class="dropdown-item" href="{{ route('doors.show',Auth::user()->id) }}">Door Details</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('doors.index')}}">Door Admin</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('doors.create') }}">New Door</a></li>
+                                    @endauth
+                                    @guest
+                                        <li><a class="dropdown-item" href="{{ route('doors.index')}}">Login to access</a></li>
+                                    @endguest
+                                </ul>
+                            @endif
+                        @endauth
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Zone Resource
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            @auth
-                                <li><a class="dropdown-item" href="{{ route('zones.show',Auth::user()->id) }}">Zone Details</a></li>
-                                <li><a class="dropdown-item" href="{{ route('zones.index')}}">Zone Admin</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="{{ route('zones.create') }}">New Zone</a></li>
-                            @endauth
-                            @guest()
-                                <li><a class="dropdown-item" href="{{ route('zones.index')}}">Login to access</a></li>
-                            @endguest
-
-                        </ul>
+                        @auth
+                            @if(Auth::user()->administrator)
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Zone Resource
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    @auth
+                                        <li><a class="dropdown-item" href="{{ route('zones.show',Auth::user()->id) }}">Zone Details</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('zones.index')}}">Zone Admin</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item" href="{{ route('zones.create') }}">New Zone</a></li>
+                                    @endauth
+                                    @guest()
+                                        <li><a class="dropdown-item" href="{{ route('zones.index')}}">Login to access</a></li>
+                                    @endguest
+                                </ul>
+                            @endif
+                        @endauth
                     </li>
+
+
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Back

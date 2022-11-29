@@ -1,10 +1,10 @@
 
-@extends('layouts.master')
+@extends('layouts.nav')
 
-@section('title', 'Door')
+{{--@section('title', 'Door')--}}
 
 @section('content')
-
+{{--    @include('partials.doors_details')--}}
     <div class="panel panel-default">
         <!-- Content here -->
         <div class="panel-heading">Door</div>
