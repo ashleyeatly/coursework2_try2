@@ -1,4 +1,5 @@
 <x-layout title="users">
+    @include('partials.users_admin')
      <table id="user-table" class="table table-striped" style="width:100%">
         <thead>
         <tr>

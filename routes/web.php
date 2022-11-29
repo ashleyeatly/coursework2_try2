@@ -27,13 +27,14 @@ use Illuminate\Support\Facades\Route;
 // note {name?} makes parameter optional
 
 Route::get('/', fn ()
-=> view('welcome'));
+=> view('welcome'))->name('welcolme');
 
 
 //Route::middleware(['auth'])->group(function(){
 //    Route::view('/admin','admin')->name('admin');
 //});
 
+// is this the only place /admin is mentioned and protected
 Route::middleware(['auth'])->group(fn ()
 => Route::view('/admin','admin')->name('admin'));
 

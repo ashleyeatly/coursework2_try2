@@ -1,4 +1,6 @@
 <x-layout title="doors">
+    <h1>This is doors.show</h1>
+
     <ul>
         @foreach($doors as $door)
             <li>

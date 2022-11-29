@@ -26,6 +26,8 @@
         @if (Auth::user()->administrator)
             <h3>Administrator</h3>
         @endif
+    @else
+        <h1>You have not logged in to use the site features</h1>
     @endauth
 
     {{ $slot }}
