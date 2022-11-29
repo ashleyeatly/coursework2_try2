@@ -1,65 +1,38 @@
-@extends('layouts.master')
+{{--<x-layout title="User">--}}
+@extends('layouts.nav')
 {{--@extends('layouts.nav')--}}
-@section('title', 'User')
+{{--@section('title', 'User')--}}
 
 @section('content')
-    <table id="user-table" class="table table-striped" style="width:100%">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Administrator</th>
-            <th>Expires</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>{{$user->name}}</td>
-            <td>{{$user->first_name}}</td>
-            <td>{{$user->last_name}}</td>
-            <td>{{$user->administrator}}</td>
-            <td> {{$user->expires}}</td>
-        </tr>
-        </tbody>
-    </table>
-    @push('scripts')
-        <script>
-            $(document).ready( function () {
-                $('#user-table').DataTable();
-            } );
-        </script>
-    @endpush
 
-    <form method="POST"
-          action="{{route('users.destroy',['user'=>$user])}}">
-        @csrf
-        @method('DELETE')
-        <button type="submit">Delete</button>
-    </form>
+    @include('partials.user_details')
 
-    <form method="GET"
-          action="{{route('users.create')}}">
-        @csrf
-        <button type="submit">Create</button>
-    </form>
+{{--    <form method="POST"--}}
+{{--          action="{{route('users.destroy',['user'=>$user])}}">--}}
+{{--        @csrf--}}
+{{--        @method('DELETE')--}}
+{{--        <button type="submit">Delete</button>--}}
+{{--    </form>--}}
 
-    <form method="GET"
-          action="{{route('users.index')}}">
-        @csrf
-        <button type="submit">Back</button>
-    </form>
+{{--    <form method="GET"--}}
+{{--          action="{{route('users.create')}}">--}}
+{{--        @csrf--}}
+{{--        <button type="submit">Create</button>--}}
+{{--    </form>--}}
+
+
     @auth
-        @if(Auth::user()->administrator)
+        @if($user->administrator)
             <h1>Administrator has access to all doors and zones</h1>
-        @elseauth
-            <h1>Here are the zones and Doors</h1>
+        @else
+            <h1>Zones</h1>
             @if ($user->zones())
                 <table id="zone-table" class="table table-striped" style="width:100%">
                     @foreach($user->zones as $zone)
                         <thead>
                         <tr>
                             <th>Zone</th>
+                            <th>Door</th>
                             <th>Show</th>
                             @if(Auth::user()->administrator)
                                 <th>Remove Access</th>
@@ -69,10 +42,11 @@
                         <tbody>
                         <tr>
                             <td><a href="{{route('zones.show',['zone'=>$zone])}}">{{$zone->name}}</td>
+                            <td></td>
                             <td>
                                 <form action="{{ route('zones.show',['zone'=>$zone]) }}" method="GET">
                                     @csrf
-                                    <button type="submit" class="btn btn-primary">Show</button>
+                                    <button type="submit" class="btn btn-primary">Show Zone</button>
                                 </form>
                             </td>
                             @if(Auth::user()->administrator)
@@ -87,25 +61,19 @@
                         </tbody>
 
                         @if ($zone->doors())
-
-
-
                             @foreach($zone->doors as $door)
-                                {{--                            <thead>--}}
-                                {{--                                <tr>--}}
-                                {{--                                    <th>Door Name</th>--}}
-                                {{--                                    <th>Show Door</th>--}}
-                                {{--                                </tr>--}}
-                                {{--                            </thead>--}}
                                 <tbody>
                                 <tr>
                                     <td>
-                                        <a href="{{route('doors.show',['door'=>$door])}}">{{$zone->name."->".$door->name}}
+{{--                                    <a href="{{route('zones.show',['zone'=>$zone])}}">{{$zone->name}}--}}
+                                    </td>
+                                    <td>
+                                        <a href="{{route('doors.show',['door'=>$door])}}">{{$door->name}}
                                     </td>
                                     <td>
                                         <form action="{{ route('doors.show',['door'=>$door]) }}" method="GET">
                                             @csrf
-                                            <button type="submit" class="btn btn-primary">Show</button>
+                                            <button type="submit" class="btn btn-primary">Show Door</button>
                                         </form>
                                     </td>
                                 </tr>
@@ -123,13 +91,15 @@
                     </script>
                 @endpush
             @endif
-
+            <h1>Doors</h1>
+{{--            now doors--}}
             @if ($user->doors()->count())
                 <table id="door-table" class="table table-striped" style="width:100%">
                     <thead>
                     <tr>
-                        <th>Door Name</th>
-                        <th>Show Door</th>
+                        <th>Door</th>
+                        <th></th>
+                        <th>Show</th>
                         @if(Auth::user()->administrator)
                             <th>Remove Access</th>
                         @endif
@@ -141,6 +111,7 @@
                             <td>
                                 <a href="{{route('doors.show',['door'=>$door])}}">{{$door->name}}</a>
                             </td>
+                            <td></td>
                             <td>
                                 <form action="{{ route('logout') }}" method="POST">
                                     @csrf
@@ -171,3 +142,4 @@
     @endauth
 
 @endsection
+{{--</x-layout>--}}

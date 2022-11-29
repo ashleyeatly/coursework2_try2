@@ -83,10 +83,14 @@ class User extends Authenticatable
     public function hasAccessToDoor(Door $door)
     {
         // Check if the user has expired.
-        if ($this->expires < Carbon::now()) // https://carbon.nesbot.com/docs/
-        {
+        if ($this->isExpired()) {
             return false;
         }
+//
+//        if ($this->expires < Carbon::now()) // https://carbon.nesbot.com/docs/
+//        {
+//            return false;
+//        }
 
         // Check if the user is admin. If so thrre is no need to check further.
         if($this->administrator)
@@ -111,4 +115,14 @@ class User extends Authenticatable
         // We didn't find any access.
         return false;
     }
+
+    public function isExpired() {
+        if ($this->expires < Carbon::now()) // https://carbon.nesbot.com/docs/
+        {
+            return true;
+        }
+        return false;
+    }
+    // Check if the user has expired.
+
 }

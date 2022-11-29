@@ -1,45 +1,39 @@
-
 @extends('layouts.master')
 
-@section('title', 'Door')
+@section('title', 'Person')
 
 @section('content')
 
     <div class="panel panel-default">
         <!-- Content here -->
-        <div class="panel-heading">Door</div>
+        <div class="panel-heading">Panel Heading</div>
         {{--        <a href="{{route('people.destroy',['id'=>$person->id])}}">Delete Person</a>--}}
         {{--        <a href="{{route('people.destroy',['id'=>$person->id])}}">Delete Person</a>--}}
         <div class="panel-body">
             <ul>
-                <li>Name: {{$door->name}}</li>
+                <li>Title: {{$person->title}}</li>
+                <li>First Name: {{$person->first_name}}</li>
+                <li>Surname: {{$person->surname}}</li>
+                <li>Address: {{$person->address}}</li>
             </ul>
             <form method="POST"
-                  action="{{route('doors.destroy',['door'=>$door])}}">
+                  action="{{route('people.destroy',['person'=>$person])}}">
                 @csrf
                 @method('DELETE')
                 <button type="submit">Delete</button>
             </form>
 
             <form method="GET"
-                  action="{{route('doors.create')}}">
+                  action="{{route('people.create')}}">
                 @csrf
                 <button type="submit">Create</button>
             </form>
 
             <form method="GET"
-                  action="{{route('doors.index')}}">
+                  action="{{route('people.index')}}">
                 @csrf
                 <button type="submit">Back</button>
             </form>
         </div>
     </div>
 @endsection
-
-<x-layout title="doors">
-    <h1>This is doors.show</h1>
-
-    <ul>
-        <li>Name: {{$door->name}}</li>
-    </ul>
-</x-layout>

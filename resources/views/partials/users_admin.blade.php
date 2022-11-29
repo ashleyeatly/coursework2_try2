@@ -1,29 +1,9 @@
-<h1>just users</h1>
-<table id="user-table" class="table table-striped" style="width:100%">
-    <thead>
-    <tr>
-        <th>Name</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach(App\Models\User::all() as $user)
-        <tr>
-            <td><a href="{{route('users.show',['user'=>$user])}}">{{$user->name}}</td>
-        </tr>
-    @endforeach
-    </tbody>
-</table>
-@push('scripts')
-    <script>
-        $(document).ready( function () {
-            $('#user-table').DataTable();
-        } );
-    </script>
-@endpush
+<h1>Admin View</h1>
 
 <table id="user-table" class="table table-striped" style="width:100%">
     <thead>
     <tr>
+        <th></th>
         <th>Name</th>
         <th>First Name</th>
         <th>Last Name</th>
@@ -34,11 +14,27 @@
     </thead>
     <tbody>
     @foreach(App\Models\User::all() as $user)
+        @php
+            if ($user->administrator) {
+                $flag = "true";
+
+            } else {
+                $flag = "false";
+            }
+        @endphp
         <tr>
+            <td>
+                <form method="GET"
+                      action="{{route('users.show',['user'=>$user])}}">
+                    @csrf
+                    @method('GET')
+                    <button type="submit">Edit</button>
+                </form>
+            </td>
             <td>{{ $user->name }}</td>
             <td>{{ $user->first_name }}</td>
             <td>{{ $user->last_name }}</td>
-            <td>{{ $user->administrator }}</td>
+            <td>{{ $flag}}</td>
             <td>{{ $user->expires }}</td>
             <td>{{ $user->email }}</td>
         </tr>

@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Fortify\PasswordValidationRules;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Yajra\DataTables\Facades\DataTables;
 
 class UserController extends Controller
 {
+    use PasswordValidationRules;
     /**
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
@@ -18,19 +21,31 @@ class UserController extends Controller
         return view('users.index',['users'=>$users]);
     }
 
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function create()
     {
+        return view('users.create');
     }
 
     public function store(Request $request)
     {
+
         $validatedData = $request->validate([
-//            'name' =>  ['required',Rule::in(['Mr', 'Mrs', 'Miss','Ms','Dr','Dr.','Doctor'])],
-            'name' => 'required|string',
-            'first_name' => 'required|string',
-            'last_name' => 'required|string',
-            'administrator' => 'required|boolean',
-            'expires' => 'required|date'
+            'name' => ['required', 'string', 'max:255'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'administrator' => ['required', 'boolean', 'max:1'],
+            'expires' => ['required', 'date'],
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                Rule::unique(User::class),
+            ],
+            'password' => $this->passwordRules(),
         ]);
         $a = new User;
         $a->name = $validatedData['name'];
@@ -38,6 +53,8 @@ class UserController extends Controller
         $a->last_name = $validatedData['last_name'];
         $a->administrator = $validatedData['administrator'];
         $a->expires = $validatedData['expires'];
+        $a->email = $validatedData['email'];
+        $a->password=bcrypt($validatedData['password']);
         $a->save();
         session()->flash('message','User was created');
         return redirect()->route('users.index');
@@ -63,7 +80,7 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        return redirect()->route('user.index')
+        return redirect()->route('users.index')
             ->with('message','User was deleted');
     }
 
